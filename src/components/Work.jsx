@@ -2,42 +2,50 @@ import { useState } from 'react'
 
 const filters = ['All', 'Branding', 'Web', 'Marketing']
 
+// To use your own image: put it in public/images/ and set
+// image: '/images/lumen.jpg'
 const projects = [
   {
     title: 'Lumen Coffee',
     category: 'Branding',
     text: 'Full visual identity for a specialty coffee roaster.',
     bg: 'from-amber-500 to-rose-600',
+    image: 'https://picsum.photos/seed/lumen-coffee/800/500',
   },
   {
     title: 'Orbit Finance',
     category: 'Web',
     text: 'Dashboard and marketing site for a fintech startup.',
     bg: 'from-indigo-500 to-cyan-500',
+    image: 'https://picsum.photos/seed/orbit-finance/800/500',
   },
   {
     title: 'Bloom Studio',
     category: 'Marketing',
     text: 'Social campaign that tripled engagement in two months.',
     bg: 'from-fuchsia-500 to-purple-700',
+    image: 'https://picsum.photos/seed/bloom-studio/800/500',
   },
   {
     title: 'Atlas Travel',
     category: 'Web',
     text: 'Booking platform with a fast, mobile-first experience.',
     bg: 'from-emerald-500 to-teal-700',
+    image: 'https://picsum.photos/seed/atlas-travel/800/500',
   },
   {
     title: 'Pulse Fitness',
     category: 'Branding',
     text: 'Rebrand and packaging for a growing fitness label.',
     bg: 'from-orange-500 to-red-600',
+    image: 'https://picsum.photos/seed/pulse-fitness/800/500',
   },
   {
     title: 'Nimbus Cloud',
     category: 'Marketing',
     text: 'Launch campaign and landing pages for a SaaS product.',
     bg: 'from-sky-500 to-blue-700',
+    image: 'https://picsum.photos/seed/nimbus-cloud/800/500',
   },
 ]
 
@@ -84,10 +92,18 @@ export default function Work() {
             >
               <div
                 className={
-                  'flex h-48 items-end bg-gradient-to-br p-4 ' + p.bg
+                  'relative h-48 overflow-hidden bg-gradient-to-br ' + p.bg
                 }
               >
-                <span className="rounded-full bg-black/30 px-3 py-1 text-xs backdrop-blur">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  loading="lazy"
+                  onError={(e) => (e.currentTarget.style.display = 'none')}
+                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className="absolute bottom-4 left-4 rounded-full bg-black/40 px-3 py-1 text-xs backdrop-blur">
                   {p.category}
                 </span>
               </div>
