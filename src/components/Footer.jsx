@@ -25,7 +25,7 @@ export default function Footer() {
         </ul>
 
         <p className="text-xs text-slate-500">
-          © {new Date().getFullYear()} Nova Agency. All rights reserved.
+          © {new Date().getFullYear()} Nova Agency. Demo project. All names and testimonials are sample content.
         </p>
       </div>
     </footer>

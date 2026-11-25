@@ -49,7 +49,7 @@ export default function Contact() {
           </p>
 
           <ul className="mt-8 space-y-3 text-sm text-slate-300">
-            <li>📧 hello@novaagency.com</li>
+            <li>📧 omarsee89@gmail.com</li>
             <li>📞 +1 (555) 123-4567</li>
             <li>📍 123 Creative Street, Your City</li>
           </ul>
