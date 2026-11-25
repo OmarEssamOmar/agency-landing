@@ -1,20 +1,33 @@
 import { useState } from 'react'
 
+const FORM_ENDPOINT = 'https://formspree.io/f/xaeovdgn'
 const initial = { name: '', email: '', message: '' }
 
 export default function Contact() {
   const [data, setData] = useState(initial)
-  const [sent, setSent] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
   const onChange = (e) =>
     setData({ ...data, [e.target.name]: e.target.value })
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-    // TODO: connect to a real service (Formspree, Netlify Forms, your API)
-    console.log('Form data:', data)
-    setSent(true)
-    setData(initial)
+    setStatus('sending')
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      if (!res.ok) throw new Error('Request failed')
+      setData(initial)
+      setStatus('sent')
+    } catch {
+      setStatus('error')
+    }
   }
 
   const field =
@@ -74,14 +87,20 @@ export default function Contact() {
           />
           <button
             type="submit"
-            className="w-full rounded-full bg-indigo-500 py-3 font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
+            disabled={status === 'sending'}
+            className="w-full rounded-full bg-indigo-500 py-3 font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400 disabled:opacity-60"
           >
-            Send message
+            {status === 'sending' ? 'Sending…' : 'Send message'}
           </button>
 
-          {sent && (
+          {status === 'sent' && (
             <p className="rounded-xl bg-emerald-500/10 px-4 py-3 text-center text-sm text-emerald-300">
               Thanks! Your message has been received.
+            </p>
+          )}
+          {status === 'error' && (
+            <p className="rounded-xl bg-rose-500/10 px-4 py-3 text-center text-sm text-rose-300">
+              Something went wrong. Please try again.
             </p>
           )}
         </form>
